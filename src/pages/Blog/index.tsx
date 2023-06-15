@@ -1,5 +1,3 @@
-import { Header } from '../../components/Header'
-
 export function Blog() {
-  return <Header />
+  return <h1>page blog</h1>
 }
