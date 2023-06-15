@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyle = createGlobalStyle`
   * {
@@ -13,8 +13,8 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background: ${(props) => props.theme["base-background"]};
-    color: ${(props) => props.theme["base-label"]};
+    background: ${(props) => props.theme['base-background']};
+    color: ${(props) => props.theme['base-label']};
     -webkit-font-smoothing: antialiased;
   }
 
@@ -23,4 +23,4 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: 400;
     font-size: 1rem;
   }
-`;
+`
