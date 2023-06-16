@@ -1,3 +1,11 @@
+import { PostHeaderCard } from '../../components/PostHeaderCard'
+
+import { Container } from './styles'
+
 export function Post() {
-  return <h1>Page Post</h1>
+  return (
+    <Container>
+      <PostHeaderCard style={{ marginTop: '-5.5rem' }} />
+    </Container>
+  )
 }
