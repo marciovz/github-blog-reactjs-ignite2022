@@ -13,12 +13,14 @@ interface Profile {
   bio: string
   login: string
   avatarUrl: string
+  github: string
   company: string | null
   followers: number
 }
 
 interface PostsContextData {
   profile: Profile | null
+  isLoadingProfile: boolean
 }
 
 const PostsContext = createContext({} as PostsContextData)
@@ -28,26 +30,31 @@ interface PostsProviderProps {
 }
 
 export function PostsProvider({ children }: PostsProviderProps) {
+  const [isLoadingProfile, setIsLoadingProfile] = useState(true)
   const [profile, setProfile] = useState<Profile | null>(null)
 
   useEffect(() => {
     async function loadProfile() {
+      setIsLoadingProfile(true)
       try {
         const response = await api.get('/users/marciovz')
+
+        console.log(response)
 
         setProfile({
           name: response.data.name,
           bio: response.data.bio,
           login: response.data.login,
           avatarUrl: response.data.avatar_url,
+          github: response.data.html_url,
           company: response.data.company,
           followers: response.data.followers,
         })
       } catch (error) {
         console.log(error)
+      } finally {
+        setIsLoadingProfile(false)
       }
-
-      setProfile(null)
     }
     loadProfile()
   }, [])
@@ -56,6 +63,7 @@ export function PostsProvider({ children }: PostsProviderProps) {
     <PostsContext.Provider
       value={{
         profile,
+        isLoadingProfile,
       }}
     >
       {children}

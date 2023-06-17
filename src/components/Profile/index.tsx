@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import {
@@ -8,46 +9,72 @@ import {
 
 import {
   Container,
+  NoContentContainer,
+  ContentContainer,
   HeaderProfile,
   ContentProfile,
   FooterProfile,
 } from './styles'
-export function Profile() {
+
+interface ProfileData {
+  name: string
+  bio: string
+  login: string
+  avatarUrl: string
+  github: string
+  company: string | null
+  followers: number
+}
+
+interface ProfileProps {
+  profile: ProfileData | null
+}
+
+export function Profile({ profile }: ProfileProps) {
   return (
     <Container>
-      <img src="http://github.com/marciovz.png" alt="" />
-      <div>
-        <div>
-          <HeaderProfile>
-            <p>Cameron Willianson</p>
-            <a href="http://github.com/marciovz">
-              github
-              <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-            </a>
-          </HeaderProfile>
+      {!profile ? (
+        <NoContentContainer>
+          <p>Ops. Não foi possível importar seu dados</p>
+        </NoContentContainer>
+      ) : (
+        <ContentContainer>
+          <img src={profile.avatarUrl} alt="" />
+          <div>
+            <div>
+              <HeaderProfile>
+                <p>{profile.name}</p>
+                <Link to={profile.github}>
+                  github
+                  <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+                </Link>
+              </HeaderProfile>
 
-          <ContentProfile>
-            Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu
-            viverra massa quam dignissim aenean malesuada suscipit. Nunc,
-            volutpat pulvinar vel mass.
-          </ContentProfile>
-        </div>
+              <ContentProfile>{profile.bio}</ContentProfile>
+            </div>
 
-        <FooterProfile>
-          <div>
-            <FontAwesomeIcon icon={faGithub} />
-            <p>camerronwll</p>
+            <FooterProfile>
+              <div>
+                <FontAwesomeIcon icon={faGithub} />
+                <p>{profile.login}</p>
+              </div>
+              {profile.company && (
+                <div>
+                  <FontAwesomeIcon icon={faBuilding} />
+                  <p>{profile.company}</p>
+                </div>
+              )}
+              <div>
+                <FontAwesomeIcon icon={faUserGroup} />
+                <p>
+                  {profile.followers}
+                  {profile.followers === 1 ? ' seguidor' : ' seguidores'}
+                </p>
+              </div>
+            </FooterProfile>
           </div>
-          <div>
-            <FontAwesomeIcon icon={faBuilding} />
-            <p>Rocketseat</p>
-          </div>
-          <div>
-            <FontAwesomeIcon icon={faUserGroup} />
-            <p>32 seguidores</p>
-          </div>
-        </FooterProfile>
-      </div>
+        </ContentContainer>
+      )}
     </Container>
   )
 }

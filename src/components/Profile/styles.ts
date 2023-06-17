@@ -2,14 +2,17 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   margin-top: -5.5rem;
-  padding: 2rem 2.5rem;
-
-  display: flex;
-  gap: 2rem;
 
   background-color: ${({ theme }) => theme['base-profile']};
   box-shadow: 0px 2px 28px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
+`
+export const ContentContainer = styled.div`
+  padding: 2rem 2.5rem;
+
+  display: flex;
+  flex: 1;
+  gap: 2rem;
 
   > img {
     width: 9.25rem;
@@ -19,9 +22,21 @@ export const Container = styled.div`
 
   > div {
     display: flex;
+    flex: 1;
     flex-direction: column;
     justify-content: space-between;
   }
+`
+
+export const NoContentContainer = styled.div`
+  min-height: 13.25rem;
+
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+
+  color: ${({ theme }) => theme['base-text']};
 `
 export const HeaderProfile = styled.header`
   display: flex;

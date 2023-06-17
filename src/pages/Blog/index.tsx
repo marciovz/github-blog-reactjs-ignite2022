@@ -2,12 +2,16 @@ import { Profile } from '../../components/Profile'
 import { InputFilter } from '../../components/InputFilter'
 import { PostItemCard } from '../../components/PostItemCard'
 
+import { usePosts } from '../../context/postsContext'
+
 import { Container, Info, PostListContainer } from './styles'
 
 export function Blog() {
+  const { profile } = usePosts()
+
   return (
     <Container>
-      <Profile />
+      <Profile profile={profile} />
       <Info>
         <p>Publicações</p>
         <span>6 publicações</span>
