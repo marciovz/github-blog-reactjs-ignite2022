@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
@@ -9,41 +9,90 @@ import {
   faArrowUpRightFromSquare,
 } from '@fortawesome/free-solid-svg-icons'
 
+import LoadingSpinner from '../LoadingSpinner'
+import { distanceInTimeToNow } from '../../utils/distanceInTime'
+import { captalise } from '../../utils/capitalise'
+
 import { Container } from './styles'
 
-interface PostHeaderCardProps extends HTMLAttributes<HTMLElement> {}
+interface ProfileData {
+  name: string
+  bio: string
+  login: string
+  avatarUrl: string
+  github: string
+  company: string | null
+  followers: number
+}
 
-export function PostHeaderCard(props: PostHeaderCardProps) {
+interface PostHeaderCardProps extends HTMLAttributes<HTMLElement> {
+  profile: ProfileData | null
+  title?: string
+  publicationDate?: string
+  isLoading: boolean
+}
+
+export function PostHeaderCard({
+  profile,
+  title,
+  publicationDate,
+  isLoading,
+  ...rest
+}: PostHeaderCardProps) {
+  const publicationTime = useMemo(() => {
+    if (publicationDate) return captalise(distanceInTimeToNow(publicationDate))
+    return null
+  }, [publicationDate])
+
   return (
-    <Container {...props}>
-      <header>
-        <Link to="/">
-          <FontAwesomeIcon icon={faChevronLeft} />
-          Voltar
-        </Link>
+    <Container {...rest}>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <>
+          <header>
+            <Link to="/">
+              <FontAwesomeIcon icon={faChevronLeft} />
+              Voltar
+            </Link>
 
-        <Link to="http://github.com/marciovz">
-          Ver no github
-          <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-        </Link>
-      </header>
+            {profile?.github && (
+              <Link to={profile.github}>
+                Ver no github
+                <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+              </Link>
+            )}
+          </header>
 
-      <h2>JavaScript data types and data structures</h2>
+          {title && <h2>{title}</h2>}
 
-      <footer>
-        <div>
-          <FontAwesomeIcon icon={faGithub} />
-          <p>camerronwll</p>
-        </div>
-        <div>
-          <FontAwesomeIcon icon={faCalendarDay} />
-          <p>Há 1 dia</p>
-        </div>
-        <div>
-          <FontAwesomeIcon icon={faUserGroup} />
-          <p>32 seguidores</p>
-        </div>
-      </footer>
+          <footer>
+            {profile?.login && (
+              <div>
+                <FontAwesomeIcon icon={faGithub} />
+                <p>{profile.login}</p>
+              </div>
+            )}
+
+            {publicationTime && (
+              <div>
+                <FontAwesomeIcon icon={faCalendarDay} />
+                <p>{publicationTime}</p>
+              </div>
+            )}
+
+            {profile?.followers && (
+              <div>
+                <FontAwesomeIcon icon={faUserGroup} />
+                <p>
+                  {profile.followers}
+                  {profile.followers === 1 ? ' seguidor' : ' seguidores'}
+                </p>
+              </div>
+            )}
+          </footer>
+        </>
+      )}
     </Container>
   )
 }

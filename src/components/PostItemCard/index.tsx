@@ -1,3 +1,5 @@
+import ReactMarkdown from 'react-markdown'
+
 import { textCut } from '../../utils/textCut'
 import { distanceInTimeToNow } from '../../utils/distanceInTime'
 import { captalise } from '../../utils/capitalise'
@@ -25,7 +27,7 @@ export function PostItemCard({ issue }: PostItemCardProps) {
         <span>{publicationTime}</span>
       </Header>
       <Content>
-        <p>{textCut(issue.body, 185)}</p>
+        <ReactMarkdown>{textCut(issue.body, 185)}</ReactMarkdown>
       </Content>
     </Container>
   )
