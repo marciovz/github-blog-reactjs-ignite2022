@@ -23,7 +23,7 @@ export const Header = styled.div`
     font-size: 1.25rem;
     font-weight: 700;
     color: ${({ theme }) => theme['base-title']};
-    line-height: 2rem;
+    line-height: 1.6rem;
   }
 
   & > span {
@@ -36,8 +36,34 @@ export const Header = styled.div`
 export const Content = styled.div`
   margin-top: 1.25rem;
 
-  > p {
-    color: ${({ theme }) => theme['base-text']};
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-size: 1rem;
+    color: ${({ theme }) => theme['base-subtitle']};
+    margin: 0.8rem 0;
     line-height: 1.6rem;
+  }
+
+  > p {
+    font-size: 1rem;
+    color: ${({ theme }) => theme['base-text']};
+    line-height: 1.625rem;
+  }
+
+  a {
+    margin-top: 1.625rem;
+    font-size: inherit;
+    color: ${({ theme }) => theme.blue};
+    line-height: 1.625rem;
+  }
+
+  img,
+  ul,
+  li,
+  p:has(img),
+  pre {
+    display: none;
   }
 `
