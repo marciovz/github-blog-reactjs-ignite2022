@@ -19,7 +19,7 @@ export function Blog() {
           {issues.totalPublications === 1 ? ' publicação' : ' publicações'}
         </span>
       </Info>
-      <InputFilter type="search" style={{ marginTop: '0.75rem' }} />
+      <InputFilter style={{ marginTop: '0.75rem' }} />
 
       <PostListContainer>
         {issues.items.map((issue) => (

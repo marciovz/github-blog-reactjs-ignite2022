@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const Container = styled.div`
+export const SearchFormContainer = styled.form`
   background: ${({ theme }) => theme['base-input']};
 
   > input {

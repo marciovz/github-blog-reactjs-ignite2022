@@ -47,6 +47,7 @@ interface PostsContextData {
   issues: IssuesData
   isLoadingProfile: boolean
   isLoadingIssues: boolean
+  updateFilterIssues: (text: string) => void
 }
 
 const PostsContext = createContext({} as PostsContextData)
@@ -57,7 +58,6 @@ interface PostsProviderProps {
 
 const user = 'marciovz'
 const repo = 'github-blog-reactjs-ignite2022'
-const query = ''
 
 export function PostsProvider({ children }: PostsProviderProps) {
   const [isLoadingProfile, setIsLoadingProfile] = useState(true)
@@ -67,6 +67,11 @@ export function PostsProvider({ children }: PostsProviderProps) {
     totalPublications: 0,
     items: [],
   } as IssuesData)
+  const [filterIssues, setFilterIssues] = useState('')
+
+  function updateFilterIssues(text: string) {
+    setFilterIssues(text)
+  }
 
   useEffect(() => {
     async function loadProfile() {
@@ -97,7 +102,7 @@ export function PostsProvider({ children }: PostsProviderProps) {
       setIsLoadingIssues(true)
       try {
         const response = await api.get<IssuesApi>(
-          `/search/issues?q=${query}%20repo:${user}/${repo}`,
+          `/search/issues?q=${filterIssues}%20repo:${user}/${repo}`,
         )
 
         const totalPublications = response.data.total_count
@@ -117,7 +122,7 @@ export function PostsProvider({ children }: PostsProviderProps) {
       }
     }
     loadIssues()
-  }, [])
+  }, [filterIssues])
 
   return (
     <PostsContext.Provider
@@ -126,6 +131,7 @@ export function PostsProvider({ children }: PostsProviderProps) {
         issues,
         isLoadingProfile,
         isLoadingIssues,
+        updateFilterIssues,
       }}
     >
       {children}

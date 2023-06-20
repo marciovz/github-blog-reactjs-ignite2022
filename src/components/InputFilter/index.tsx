@@ -1,13 +1,28 @@
-import { InputHTMLAttributes } from 'react'
+import { FormEvent, FormHTMLAttributes } from 'react'
 
-import { Container } from './styles'
+import { usePosts } from '../../context/postsContext'
 
-interface InputFilterProps extends InputHTMLAttributes<HTMLInputElement> {}
+import { SearchFormContainer } from './styles'
 
-export function InputFilter({ style, ...rest }: InputFilterProps) {
+interface FormElements extends HTMLFormControlsCollection {
+  searchInput: HTMLInputElement
+}
+
+interface SearchInputElement extends HTMLFormElement {
+  readonly elements: FormElements
+}
+
+export function InputFilter(props: FormHTMLAttributes<HTMLFormElement>) {
+  const { updateFilterIssues } = usePosts()
+
+  function handleSubmit(event: FormEvent<SearchInputElement>) {
+    event.preventDefault()
+    updateFilterIssues(event.currentTarget.elements.searchInput.value)
+  }
+
   return (
-    <Container style={style}>
-      <input placeholder="Buscar conteúdo" {...rest} />
-    </Container>
+    <SearchFormContainer onSubmit={handleSubmit} {...props}>
+      <input id="searchInput" type="text" placeholder="Buscar conteúdo" />
+    </SearchFormContainer>
   )
 }
