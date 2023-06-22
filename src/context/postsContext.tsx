@@ -6,6 +6,7 @@ import {
   useState,
 } from 'react'
 
+import { user, repo } from '../config/blogCongig'
 import { api } from '../services/api'
 
 interface Profile {
@@ -56,9 +57,6 @@ interface PostsProviderProps {
   children: ReactNode
 }
 
-const user = 'marciovz'
-const repo = 'github-blog-reactjs-ignite2022'
-
 export function PostsProvider({ children }: PostsProviderProps) {
   const [isLoadingProfile, setIsLoadingProfile] = useState(true)
   const [isLoadingIssues, setIsLoadingIssues] = useState(true)
@@ -77,7 +75,7 @@ export function PostsProvider({ children }: PostsProviderProps) {
     async function loadProfile() {
       setIsLoadingProfile(true)
       try {
-        const response = await api.get('/users/marciovz')
+        const response = await api.get(`/users/${user}`)
 
         setProfile({
           name: response.data.name,
